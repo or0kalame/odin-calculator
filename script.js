@@ -98,48 +98,59 @@ addCommand.addEventListener('click', () => {
     firstNumber = parseFloat(numberOnScreen.textContent);
     operator = '+';
     operatorPressed = true;
+    brightUpElement(addCommand);
+    resetElements(subCommand, multiplyCommand, divideCommand);
 })
 
 subCommand.addEventListener('click', () => {
     firstNumber = parseFloat(numberOnScreen.textContent);
     operator = '-';
     operatorPressed = true;
+    brightUpElement(subCommand);
+    resetElements(addCommand, multiplyCommand, divideCommand);
 })
 
 multiplyCommand.addEventListener('click', () => {
     firstNumber = parseFloat(numberOnScreen.textContent);
     operator = '*';
     operatorPressed = true;
+    brightUpElement(multiplyCommand);
+    resetElements(addCommand, subCommand, divideCommand);
 })
 
 divideCommand.addEventListener('click', () => {
     firstNumber = parseFloat(numberOnScreen.textContent);
     operator = '/';
     operatorPressed = true;
+    brightUpElement(divideCommand);
+    resetElements(addCommand, multiplyCommand, subCommand);
 })
 
 equalCommand.addEventListener('click', () => {
     if (numberOnScreen.textContent === 'Error') return;
 
     secondNumber = parseFloat(numberOnScreen.textContent);
-    console.log(firstNumber);
-    console.log(secondNumber);
     switch (operator) {
         case '+':
             numberOnScreen.textContent = firstNumber + secondNumber;
+            resetElements(addCommand); 
             break;
         case '-':
             numberOnScreen.textContent = firstNumber - secondNumber;
+            resetElements(subCommand); 
             break;
         case '*':
             numberOnScreen.textContent = firstNumber * secondNumber;
+            resetElements(multiplyCommand); 
             break;
         case '/':
             if (secondNumber === 0) {
                 numberOnScreen.textContent = 'Error';
+                resetElements(divideCommand); 
                 break;
             } else {
                 numberOnScreen.textContent = firstNumber / secondNumber;
+                resetElements(divideCommand); 
                 break;
             }
     }
@@ -150,3 +161,16 @@ deleteCommand.addEventListener('click', () => {
     firstNumber = 0;
     secondNumber = 0;
 })
+
+// Functions
+function brightUpElement(element) {
+    element.style.color = '#db6001'; 
+    element.style.backgroundColor = 'white'; 
+}
+
+function resetElements(...elements) {
+    for (let element of elements) {
+        element.style.color = null; 
+        element.style.backgroundColor = null; 
+    }
+}
