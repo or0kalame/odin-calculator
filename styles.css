@@ -40,7 +40,7 @@ body {
     height: auto;
 }
 
-.number, #delete, #comma {
+.number, #delete, #dot {
     font-size: 20px;
     border: solid 1px #d6d5d5;
     width: 125px;
@@ -57,4 +57,17 @@ body {
     font-size: 30px;
     background-color: #f96d00;
     border: solid 1px #db6001;
+    color: white;
+}
+
+#inputNumber {
+    display:flex;
+    flex-direction: row-reverse;
+}
+
+#numberOnScreen {
+    color: white;
+    align-self: end;
+    margin-right: 20px;
+    font-size: 50px;
 }

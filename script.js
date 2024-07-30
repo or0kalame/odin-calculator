@@ -1,6 +1,7 @@
 // Constructing the calculator body
 let numbers = document.getElementById('numbers');
 
+// Adding the numbers buttons
 for (let i = 1; i < 10; i++) {
     let button = document.createElement('button');
     button.textContent = i.toString();
@@ -8,16 +9,17 @@ for (let i = 1; i < 10; i++) {
     numbers.appendChild(button);
 }
 
-for (let el of '0,D') {
+// Adding "0", "." and "AC" buttons
+for (let el of '0.D') {
     if (el == '0') {
         let button = document.createElement('button');
         button.textContent = el.toString();
         button.classList.add('number');
         numbers.appendChild(button);
-    } else if (el == ',') {
+    } else if (el == '.') {
         let button = document.createElement('button');
         button.textContent = el;
-        button.id = ('comma');
+        button.id = 'dot';
         numbers.appendChild(button);
     } else if (el == 'D') {
         let button = document.createElement('button');
@@ -27,9 +29,9 @@ for (let el of '0,D') {
     }
 }
 
+// Adding the operators buttons
 let operators = document.getElementById('operators');
-
-for (let el of '+-/x=') {
+for (let el of '+-/*=') {
     let button = document.createElement('button');
     if (el === '+') {
         button.textContent = el;
@@ -43,7 +45,7 @@ for (let el of '+-/x=') {
         button.textContent = el;
         button.id = 'divide';
         operators.appendChild(button);
-    } else if (el === 'x') {
+    } else if (el === '*') {
         button.textContent = el;
         button.id = 'multiply';
         operators.appendChild(button);
@@ -53,3 +55,98 @@ for (let el of '+-/x=') {
         operators.appendChild(button);
     }
 }
+
+// Logic for the input number
+let firstNumber;
+let secondNumber;
+let operator;
+
+let operatorPressed = false;
+
+let numberOnScreen = document.getElementById('numberOnScreen');
+let digits = document.getElementsByClassName('number');
+
+let addCommand = document.getElementById('add');
+let subCommand = document.getElementById('substruct');
+let multiplyCommand = document.getElementById('multiply');
+let divideCommand = document.getElementById('divide');
+let equalCommand = document.getElementById('equal');
+let deleteCommand = document.getElementById('delete');
+
+// Event Listeners
+for (let digit of digits) {
+    digit.addEventListener('click', () => {
+        if (numberOnScreen.textContent === 'Error') return;
+
+        if (numberOnScreen.textContent === '0' && !operatorPressed) {
+            numberOnScreen.textContent = digit.textContent;
+        } else if (!operatorPressed) {
+            numberOnScreen.textContent += digit.textContent;
+        } else if (operatorPressed) {
+            numberOnScreen.textContent = digit.textContent;
+            operatorPressed = false;
+        }
+    })
+}
+
+let dot = document.getElementById('dot');
+dot.addEventListener('click', () => {
+    numberOnScreen.textContent += '.';
+})
+
+addCommand.addEventListener('click', () => {
+    firstNumber = parseFloat(numberOnScreen.textContent);
+    operator = '+';
+    operatorPressed = true;
+})
+
+subCommand.addEventListener('click', () => {
+    firstNumber = parseFloat(numberOnScreen.textContent);
+    operator = '-';
+    operatorPressed = true;
+})
+
+multiplyCommand.addEventListener('click', () => {
+    firstNumber = parseFloat(numberOnScreen.textContent);
+    operator = '*';
+    operatorPressed = true;
+})
+
+divideCommand.addEventListener('click', () => {
+    firstNumber = parseFloat(numberOnScreen.textContent);
+    operator = '/';
+    operatorPressed = true;
+})
+
+equalCommand.addEventListener('click', () => {
+    if (numberOnScreen.textContent === 'Error') return;
+
+    secondNumber = parseFloat(numberOnScreen.textContent);
+    console.log(firstNumber);
+    console.log(secondNumber);
+    switch (operator) {
+        case '+':
+            numberOnScreen.textContent = firstNumber + secondNumber;
+            break;
+        case '-':
+            numberOnScreen.textContent = firstNumber - secondNumber;
+            break;
+        case '*':
+            numberOnScreen.textContent = firstNumber * secondNumber;
+            break;
+        case '/':
+            if (secondNumber === 0) {
+                numberOnScreen.textContent = 'Error';
+                break;
+            } else {
+                numberOnScreen.textContent = firstNumber / secondNumber;
+                break;
+            }
+    }
+})
+
+deleteCommand.addEventListener('click', () => {
+    numberOnScreen.textContent = '0';
+    firstNumber = 0;
+    secondNumber = 0;
+})
